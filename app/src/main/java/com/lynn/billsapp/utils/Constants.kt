@@ -9,5 +9,6 @@ class Constants {
         val WEEKLY="Weekly"
         val MONTHLY="Monthly"
         val YEARLY="Yearly"
+        val CREATE_UPCOMING_BILLS=""
     }
 }

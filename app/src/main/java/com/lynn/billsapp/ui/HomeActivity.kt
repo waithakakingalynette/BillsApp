@@ -10,17 +10,18 @@ import com.lynn.billsapp.viewModels.BillsViewModel
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
-    val billsViewModel: BillsViewModel by viewModels()
+    private val billsViewModel: BillsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        billsViewModel.createRecurringBills()
     }
 
     override fun onResume() {
         super.onResume()
         setUpBottomNav()
+        billsViewModel.createRecurringBills()
+
     }
 
     fun setUpBottomNav() {

@@ -86,13 +86,7 @@ class BillsActivity : AppCompatActivity() {
             selectedDate = date
         }
     }
-    fun View.show() {
-        this.visibility = View.VISIBLE
-    }
 
-    fun View.hide() {
-        this.visibility = View.GONE
-    }
 
     fun validateBill() {
         val billName = binding.etBillName.text.toString()
@@ -123,7 +117,8 @@ class BillsActivity : AppCompatActivity() {
                 amount = amount.toDouble(),
                 userId = userId.toString(),
                 frequency = frequency,
-                dueDate = dueDate
+                dueDate = dueDate,
+                synced = Boolean
             )
             billsViewModel.saveBill(bill)
             clearForm()
@@ -136,4 +131,13 @@ class BillsActivity : AppCompatActivity() {
         showSpinner()
         binding.spDueDate.setSelection(0)
     }
+
+
+}
+fun View.show() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.hide() {
+    this.visibility = View.GONE
 }

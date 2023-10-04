@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.lynn.billsapp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.lynn.billsapp"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -60,4 +60,8 @@ dependencies {
     implementation ("jp.wasabeef:picasso-transformations:2.4.0")
     implementation ("androidx.room:room-runtime:2.5.2")
     kapt ("androidx.room:room-compiler:2.5.2")
+    implementation ("androidx.fragment:fragment-ktx:1.6.1")
+    implementation ("androidx.work:work-runtime:2.8.1")
+
+
 }

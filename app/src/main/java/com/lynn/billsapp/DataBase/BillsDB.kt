@@ -8,7 +8,7 @@ import com.lynn.billsapp.models.Bill
 import com.lynn.billsapp.models.UpcomingBill
 
 
-@Database(entities = [Bill::class,UpcomingBill::class], version = 1)
+@Database(entities = [Bill::class,UpcomingBill::class], version = 2)
 
 abstract class BillsDB :RoomDatabase(){
     abstract fun billsDao():BillsDao
