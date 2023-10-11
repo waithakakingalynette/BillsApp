@@ -36,4 +36,16 @@ class BillsViewModel:ViewModel() {
     fun getPaidBills():LiveData<List<UpcomingBill>>{
         return billsRepository.getPaidBills()
     }
+
+    fun getAllBill(): LiveData<List<Bill>> {
+        return billsRepository.getAllBills()
+    }
+
+    fun fetchRemoteBills(){
+        viewModelScope.launch {
+            billsRepository.fetchUpcomingBills()
+            billsRepository.fetchRemoteUpcomingBills()
+
+        }
+    }
 }

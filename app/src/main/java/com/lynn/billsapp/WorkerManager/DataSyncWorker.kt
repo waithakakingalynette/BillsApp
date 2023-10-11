@@ -9,7 +9,7 @@ class DataSyncWorker(context: Context,workerParams:WorkerParameters):CoroutineWo
 
     val billsRepository=BillsRepository()
     override suspend fun doWork(): Result {
-        billsRepository.getSyncedBills()
+        billsRepository.getSyncBills()
         billsRepository.syncUpcomingBills()
         return Result.success()
     }

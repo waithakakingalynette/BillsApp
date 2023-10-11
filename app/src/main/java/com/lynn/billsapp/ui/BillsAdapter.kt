@@ -10,7 +10,7 @@ import com.lynn.billsapp.R
 import com.lynn.billsapp.models.Bill
 import kotlinx.coroutines.NonCancellable.parent
 
-class BillsAdapter (context: Context, resource: Int, bills: List<Bill>): ArrayAdapter<Bill>(context, resource, bills) {
+class BillsAdapter(context: Context, resource: Int, bills: List<Bill>, position: Int): ArrayAdapter<Bill>(context, resource, bills) {
     val bill = getItem(position)
     val itemView = convertView ?: LayoutInflater.from(context)
         .inflate(R.layout.item_bill, parent, false)
@@ -36,5 +36,4 @@ class ViewHolder(itemView: View) {
             tvUserId.text = "UserId: ${bill.userId}"
         }
     }
-}
 }

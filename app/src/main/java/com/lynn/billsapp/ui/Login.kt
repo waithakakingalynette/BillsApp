@@ -12,11 +12,13 @@ import com.lynn.billsapp.databinding.ActivityLoginBinding
 import com.lynn.billsapp.models.LoginRequest
 import com.lynn.billsapp.models.LoginResponse
 import com.lynn.billsapp.utils.Constants
+import com.lynn.billsapp.viewModels.BillsViewModel
 import com.lynn.billsapp.viewModels.LoginUserViewModel
 
 class Login : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     val loginUserViewModel:LoginUserViewModel by viewModels()
+    val billsViewModel:BillsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -36,6 +38,7 @@ class Login : AppCompatActivity() {
             binding.pbprogressBar.visibility= View.GONE
             loginUserViewModel.loginLiveData.observe(this, Observer { loginResponse->
                 persistLogin(loginResponse)
+                billsViewModel.fetchRemoteBills()
                 Toast.makeText(this, loginResponse.message, Toast.LENGTH_LONG).show()
             })
             loginUserViewModel.errorLiveData.observe(this, Observer { error->

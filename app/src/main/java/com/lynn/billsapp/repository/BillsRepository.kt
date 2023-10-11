@@ -1,6 +1,7 @@
 package com.lynn.billsapp.repository
 
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.lynn.billsapp.BillsApp
 import com.lynn.billsapp.DataBase.BillsDB
@@ -26,7 +27,7 @@ class BillsRepository {
 
     suspend fun saveBill(bill: Bill){
         withContext(Dispatchers.IO){
-            BillsDao.insertBill(bill)
+            BillsDao.saveBill(bill)
         }
     }
     suspend fun insertUpcomingBill(upcomingBill: UpcomingBill){
@@ -132,7 +133,8 @@ class BillsRepository {
     }
     suspend fun getSyncBills(){
         withContext(Dispatchers.IO){
-            val UpcomingBill= com.lynn.billsapp.DataBase.BillsDao.getUnSyncedBills()
+            var token=getAuthToken()
+            val UpcomingBill= com.lynn.billsapp.DataBase.BillDao.getUnSyncedBills()
             unsyncedBills.forEach{bill ->
                 val response=apiClient.postBill(bill)
                 bill.synced=true
@@ -142,8 +144,15 @@ class BillsRepository {
         }
     }
 
+    fun getAuthToken():String{
+        val prefs=BillsApp.appContext.getSharedPreferences(Constants.PREFS,Context.MODE_PRIVATE)
+        var token=prefs.getString(Constants.ACCESS_TOKEN,Context.MODE_PRIVATE)
+        token="Bearer $token"
+        return  token
+    }
 suspend fun syncUpcomingBills(){
     withContext(Dispatchers.IO){
+        var token=getAuthToken()
         upcomingBillsDao.getUnsyncedUpcomingBills().forEach {upcomingBill ->
             val response=apiClient.postUpcomingBill(upcomingBill)
             if (response.isSuccessful){
@@ -153,4 +162,25 @@ suspend fun syncUpcomingBills(){
         }
     }
 }
+     suspend fun fetchUpcomingBills(){
+        withContext(Dispatchers.IO){
+            val response=apiClient.fetchRemoteBills(getAuthToken())
+            if (response.isSuccessful){
+                response.body()?.forEach { bill->
+                bill.synced=true
+                    BillsDao.saveBill(bill) }
+            }
+        }
+    }
+
+     suspend fun fetchRemoteUpcomingBills(){
+        withContext(Dispatchers.IO){
+            val response=apiClient.fetchRemoteUpcomingBills(getAuthToken())
+            if (response.isSuccessful){
+                response.body()?.forEach { upcomingBill->
+                    upcomingBill.synced=true
+                    upcomingBillsDao.insertUpcomingBill(upcomingBill) }
+            }
+        }
+    }
 }
