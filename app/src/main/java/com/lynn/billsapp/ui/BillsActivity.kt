@@ -118,7 +118,7 @@ class BillsActivity : AppCompatActivity() {
                 userId = userId.toString(),
                 frequency = frequency,
                 dueDate = dueDate,
-                synced = Boolean
+                synced = false
             )
             billsViewModel.saveBill(bill)
             clearForm()

@@ -19,11 +19,36 @@ class Login : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     val loginUserViewModel:LoginUserViewModel by viewModels()
     val billsViewModel:BillsViewModel by viewModels()
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        binding = ActivityLoginBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//    }
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    super.onCreate(savedInstanceState)
+    binding = ActivityLoginBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+
+    // Move this part from onResume to onCreate
+    loginUserViewModel.loginLiveData.observe(this, Observer { loginResponse ->
+        persistLogin(loginResponse)
+        // Start HomeActivity here after a successful login
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
+        Toast.makeText(this, loginResponse.message, Toast.LENGTH_LONG).show()
+    })
+
+    loginUserViewModel.errorLiveData.observe(this, Observer { error ->
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+    })
+
+    // Now, set the click listener for the login button
+    binding.btnLogin.setOnClickListener {
+        // Clear any previous errors
+        clearErrors()
+        validateRegistrationLogin()
     }
+}
 
     override fun onResume() {
         super.onResume()

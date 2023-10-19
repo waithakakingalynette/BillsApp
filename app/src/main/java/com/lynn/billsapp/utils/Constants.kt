@@ -10,5 +10,6 @@ class Constants {
         val MONTHLY="Monthly"
         val YEARLY="Yearly"
         val CREATE_UPCOMING_BILLS=""
+        val CREATE_RECURRING_BILLS=""
     }
 }

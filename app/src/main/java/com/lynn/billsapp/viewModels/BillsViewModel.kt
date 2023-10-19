@@ -1,6 +1,7 @@
 package com.lynn.billsapp.viewModels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lynn.billsapp.models.Bill
@@ -9,7 +10,8 @@ import com.lynn.billsapp.repository.BillsRepository
 import kotlinx.coroutines.launch
 
 class BillsViewModel:ViewModel() {
-    private val billsRepository= BillsRepository()
+    val billsRepository= BillsRepository()
+    val summaryLiveData=MutableLiveData<BillsSummary>()
 
     fun saveBill(bill: Bill){
         viewModelScope.launch {
@@ -43,9 +45,15 @@ class BillsViewModel:ViewModel() {
 
     fun fetchRemoteBills(){
         viewModelScope.launch {
-            billsRepository.fetchUpcomingBills()
+            billsRepository.fetchRemoteBills()
             billsRepository.fetchRemoteUpcomingBills()
 
+        }
+    }
+
+    fun getMonthlySummary(){
+        viewModelScope.launch {
+            summaryLiveData.postValue(billsRepository.getMonthlySummary().value)
         }
     }
 }

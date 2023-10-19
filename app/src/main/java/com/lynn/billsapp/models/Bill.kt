@@ -17,6 +17,6 @@ data class Bill(
     var frequency:String,
     @SerializedName("due_date") var dueDate:String,
     @SerializedName("user_id") var userId:String,
-    @Expose(serialize = false) var synced: Boolean.Companion
+    @Expose(serialize = false) var synced: Boolean
 
 )
